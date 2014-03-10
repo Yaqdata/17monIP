@@ -35,20 +35,15 @@ index = dat[4:offset]
 #@memoize
 def _find_ip(ip):
     nip = socket.inet_aton(ip)
-    #print "nip:%s"%( _unpack_N(nip))
     tmp_offset = int(ip.split(".")[0]) * 4
-    #print "tmp_offset:%s" % tmp_offset
     start, = _unpack_V(index[tmp_offset:tmp_offset + 4])
     index_offset = index_length = 0
     max_comp_len = offset - 1028
-
     start = start * 8 + 1024
-    start_nip = 16777216
+    start_nip = 16777216 #initial the start ip 
     while start < max_comp_len:
-        #if index[start:start + 4] >= nip:
             index_offset, = _unpack_V(index[start + 4:start + 7] + chr(0).encode("utf-8"))
             end_nip,   =   _unpack_N(index[start :start + 4])
-            #print "start=%s index_offset=%s" % (start, index_offset)
             if PY2:
                 index_length, = _unpack_C(index[start + 7])
             else:
